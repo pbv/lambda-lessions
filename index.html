@@ -1,9 +1,11 @@
 <html>
   <head>
+    <meta charset="UTF-8">
    <!-- Bower Components -->
     <script src="bower_components/react/react-with-addons.js"></script>
     <script src="bower_components/lodash/dist/lodash.js"></script>
     <script src="bower_components/node-uuid/uuid.js"></script>
+
 
     <!-- Line Components -->
     <script src="components/Mixins.js"></script>
@@ -12,6 +14,7 @@
     <script src="components/FunctionNameComponent.js"></script>
     <script src="components/ListComponent.js"></script>
     <script src="components/IntComponent.js"></script>
+    <script src="components/BoolComponent.js"></script>
     <script src="components/LinesComponent.js"></script>
     <script src="components/NodeComponent.js"></script>
     <script src="components/FunctionEditorComponent.js"></script>
@@ -19,22 +22,20 @@
 
     <!-- AST Operations -->
     <script src="ast_transformations.js"></script>
-    <script src="initial_ast.js"></script>
+    <script src="prelude.js"></script>
 
     <!-- Parser -->
     <script src="haskell-parser.js"></script>
 
     <!-- Functions -->
-    <script src="functions/cons.js"></script>
-    <script src="functions/plus.js"></script>
-    <script src="functions/minus.js"></script>
+    <script src="functions/builtins.js"></script>
 
     <!-- AST Node Types -->
     <script src="astNodeType/int.js"></script>
+    <script src="astNodeType/bool.js"></script>
     <script src="astNodeType/list.js"></script>
     <script src="astNodeType/application.js"></script>
     <script src="astNodeType/functionName.js"></script>
-
 
     <!-- Styles -->
     <link rel="stylesheet" href="app.css">
@@ -207,7 +208,7 @@
     }
 
     React.renderComponent(
-      HaskellJSProgram({defaultValue: 'map addOne [1,2,3,4,5]'}),
+      HaskellJSProgram({defaultValue: 'map even [2,3,4,5]'}),
       document.getElementById('mapLines')
     );
 
@@ -224,19 +225,10 @@
     React.renderComponent(
       FunctionEditor({defaultFunctionDefinitions: window.initialFunctionDefinitions}),
       document.getElementById('function-editor')
+
     );
   </script>
 
 
 
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-53516624-1', 'auto');
-  ga('send', 'pageview');
-
-  </script>
 </html>

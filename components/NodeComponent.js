@@ -11,6 +11,8 @@ var Node = React.createClass({displayName: 'Node',
       return List({lineState: this.props.lineState, id: currentAST.id});
     } else if (currentAST.type == "int") {
       return Int({lineState: this.props.lineState, id: currentAST.id});
+    } else if (currentAST.type == "bool") {
+      return Bool({lineState: this.props.lineState, id: currentAST.id});
     } else {
       return React.DOM.span({}, "cannot handle ast of this type");
     }

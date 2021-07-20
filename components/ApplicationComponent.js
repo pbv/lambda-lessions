@@ -31,7 +31,7 @@ var Application = React.createClass({displayName: 'Application',
     funcAndArgs.pop(); // remove last whitespace
 
     if (currentAST.functionName.infix) {
-      funcAndArgs.splice(1, 0, FunctionName({lineState: this.props.lineState, id: currentAST.functionName.id, key: currentAST.functionName.id}));
+      funcAndArgs.splice(1, 0, InfixFunctionName({lineState: this.props.lineState, id: currentAST.functionName.id, key: currentAST.functionName.id}));
       funcAndArgs.splice(1, 0, ' ');
       funcAndArgs.splice(3, 0, ' ');
     } else {

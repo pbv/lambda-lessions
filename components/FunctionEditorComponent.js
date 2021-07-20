@@ -25,12 +25,12 @@ var FunctionEditor = React.createClass({displayName: 'FunctionEditor',
           key: 3
         }, this.state.error.message);
       }
-
+      	
       return React.DOM.div({className: 'function-editor-container'}, [
         React.DOM.textarea({
           spellCheck: 'false',
           className: "function-editor" + (this.state.error ? ' function-editor-error' : ''),
-          value: this.state.functionDefinitions,
+          value: this.state.functionDefinitions, 
           onChange: this.onChange,
           onKeyUp: this.onChange,
           onScroll: function() { this.forceUpdate(); }.bind(this),
@@ -65,17 +65,13 @@ var FunctionEditor = React.createClass({displayName: 'FunctionEditor',
   updateFunctionDefinitions: function(text) {
     this.setState({functionDefinitions: text});
 
-    window.functions = {
-      ':': window.functions[':'],
-      '+': window.functions['+'],
-      '-': window.functions['-']
-    };
+   window.builtins.forEach(function(op) { window.functions[op.name] = op; });
 
     var newFunctions = HaskellParser.parse(text + "\n\n", {startRule: 'functionDefinitionList'});
     newFunctions.forEach(function(func) {
-      if ([':', '+', '-'].indexOf(func.name) < 0) {
+//      if ([':', '+', '-'].indexOf(func.name) < 0) {
         window.functions[func.name] = func;
-      }
+  //    }
     });
   }
 });

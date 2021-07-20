@@ -10,12 +10,14 @@ var _isValidApplication = function(functionName, arguments) {  // TODO REMOVE TH
 };
 
 var _matchingPatternIndex = function(func, arguments){
-  for (var i = 0; i < func.patterns.length; i ++){
-    if (func.patterns[i].doesMatch(arguments)){
-      return i;
+    for (var i = 0; i < func.patterns.length; i ++){
+	if(func.patterns[i].forceEval &&
+	   func.patterns[i].forceEval(arguments)) break;
+	if (func.patterns[i].doesMatch(arguments)){
+	    return i;
+	}
     }
-  }
-  throw "Inexhaustive pattern matching for function '" + func.name + "'.";
+    throw "Inexhaustive pattern matching for function '" + func.name + "'.";
 };
 
 var _verifyApplication = function(node) {
@@ -137,15 +139,18 @@ window.ASTTransformations = {
     if (!node) return '';
     _verifyApplication(node);
 
-    var func = window.functions[node.functionName.name];
-    var index = _matchingPatternIndex(func, node.arguments);
-    var functionName = '<em>' + (func.infix ? '(' : '') + func.name + (func.infix ? ')' : '') + '</em>';
-
-    var html = functionName + ' :: ' + func.typeSignature;
-    if (func.patterns[index].definitionLine) {
-      html += '<br>' + functionName + ' ' + func.patterns[index].definitionLine
-    }
-    return html;
+      var func = window.functions[node.functionName.name];
+      var functionName = '<em>' + (func.infix ? '(' : '') + func.name + (func.infix ? ')' : '') + '</em>';
+      var html = functionName + ' :: ' + func.typeSignature;
+      try {
+	  var index = _matchingPatternIndex(func, node.arguments);
+	  if (func.patterns[index].definitionLine) {
+	      html += '<br>' + functionName + ' ' + func.patterns[index].definitionLine;
+	  }
+      } catch(e) {
+	  /* silently ignore error */
+      }
+      return html;
   },
 
   replaceSubtree: function(oldAST, id, newSubtree) {

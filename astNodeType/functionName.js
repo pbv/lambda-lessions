@@ -7,9 +7,9 @@ window.astNodeTypes['functionName'] = {
     //   var funcName = window.functions[node.functionName.name].astToString(node.functionName);
     // } else {
     //   var funcName = node.functionName.name; // default for functionName
-    // }
+      // }
 
-    var funcName = node.name;
-    return funcName;
+
+      return node.name;
   }
 };
